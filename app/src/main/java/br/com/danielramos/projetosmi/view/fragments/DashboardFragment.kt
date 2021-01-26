@@ -1,4 +1,4 @@
-package br.com.danielramos.projetosmi.ui.dashboard.view
+package br.com.danielramos.projetosmi.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import br.com.danielramos.projetosmi.R
 import br.com.danielramos.projetosmi.databinding.FragmentDashboardBinding
-import br.com.danielramos.projetosmi.ui.main.view.MainActivity
+import br.com.danielramos.projetosmi.view.activities.MainActivity
 
 class DashboardFragment : Fragment(), View.OnClickListener {
 
@@ -33,7 +33,13 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when(v.id) {
-            R.id.dash_reportsID -> MainActivity.setFragment(ReportsFragment())
+            R.id.dash_reportsID -> MainActivity.setFragment(TODO("Criar reportsFragment"))
+        }
+    }
+
+    companion object {
+        fun newInstance(): DashboardFragment{
+            return DashboardFragment()
         }
     }
 }
