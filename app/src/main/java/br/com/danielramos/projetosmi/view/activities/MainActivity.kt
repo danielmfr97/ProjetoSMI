@@ -1,4 +1,4 @@
-package br.com.danielramos.projetosmi.ui.main.view
+package br.com.danielramos.projetosmi.view.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -13,20 +13,25 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import br.com.danielramos.projetosmi.MyApplication
 import br.com.danielramos.projetosmi.R
 import br.com.danielramos.projetosmi.databinding.ActivityMainBinding
+import br.com.danielramos.projetosmi.view.fragments.DashboardFragment
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
 
+    init {
+        instance = this
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val view = binding.root
-        setContentView(view)
         requestUserPermissions()
     }
+
 
     private fun requestUserPermissions() {
         val permissions = arrayOf(
@@ -56,8 +61,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun init() {
+        val view = binding.root
+        setContentView(view)
         configureToolbar()
         configureDrawer()
+        moveToDashboard()
     }
 
     private fun configureToolbar() {
@@ -82,18 +90,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         moveToDashboard()
     }
 
-    fun moveToDashboard() {
-        //TODO: usar o setFragment() para mover para fragment principal
-        //TODO: navigationView.setCheckedItem(R.id.nav_dashboard)
-    }
-
-    fun setFragment(fragment: Fragment) {
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
     override fun onBackPressed() {
         if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -104,7 +100,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_dashboard -> setFragment(TODO("Configurar o novo fragment para dashboard"))
+            R.id.nav_dashboard -> setFragment(DashboardFragment.newInstance())
         }
 
         binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -121,5 +117,25 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.call_menu -> Toast.makeText(this, "Making a Call", Toast.LENGTH_SHORT).show()
         }
         return true
+    }
+
+
+
+    companion object {
+        private var instance: MainActivity? = null
+
+        fun setFragment(fragment: Fragment) {
+            val transaction = instance!!.supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        fun moveToDashboard() {
+            val transaction = instance!!.supportFragmentManager.beginTransaction()
+            transaction.replace(R.id.fragment_container, DashboardFragment.newInstance())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 }

@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetoSMI">
-        <activity android:name="br.com.danielramos.projetosmi.ui.main.view.MainActivity">
+        <activity android:name="br.com.danielramos.projetosmi.view.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
