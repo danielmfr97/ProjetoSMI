@@ -13,6 +13,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.navigateUp
+import androidx.navigation.ui.setupActionBarWithNavController
 import br.com.danielramos.projetosmi.MyApplication
 import br.com.danielramos.projetosmi.R
 import br.com.danielramos.projetosmi.databinding.ActivityMainBinding
@@ -21,6 +26,8 @@ import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     private lateinit var binding: ActivityMainBinding
+    private lateinit var navController: NavController
+    private lateinit var appBarConfiguration: AppBarConfiguration
 
     init {
         instance = this
@@ -65,7 +72,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(view)
         configureToolbar()
         configureDrawer()
-        moveToDashboard()
+        configureNavController()
     }
 
     private fun configureToolbar() {
@@ -87,7 +94,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             it.setDisplayHomeAsUpEnabled(true)
             it.setHomeButtonEnabled(true)
         }
-        moveToDashboard()
+    }
+
+    private fun configureNavController() {
+        navController = findNavController(R.id.navHostFragment)
+        appBarConfiguration = AppBarConfiguration(navController.graph)
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        // Informa para respeitar a pilha do navHostFragment
+        // O onSupportNavigateUp faz com que seja respeitado as activities no androidManifest, caso haja mais de uma
+        return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
     override fun onBackPressed() {
@@ -100,7 +118,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.nav_dashboard -> setFragment(DashboardFragment.newInstance())
+            R.id.nav_dashboard -> navController.navigate(R.id.action_open_dashboard_fragment)
         }
 
         binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -124,18 +142,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     companion object {
         private var instance: MainActivity? = null
 
-        fun setFragment(fragment: Fragment) {
-            val transaction = instance!!.supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
-
-        fun moveToDashboard() {
-            val transaction = instance!!.supportFragmentManager.beginTransaction()
-            transaction.replace(R.id.fragment_container, DashboardFragment.newInstance())
-                .addToBackStack(null)
-                .commit()
-        }
+//        fun setFragment(fragment: Fragment) {
+//            val transaction = instance!!.supportFragmentManager.beginTransaction()
+//            transaction.replace(R.id.fragment_container, fragment)
+//                .addToBackStack(null)
+//                .commit()
+//        }
+//
+//        fun moveToDashboard() {
+//            val transaction = instance!!.supportFragmentManager.beginTransaction()
+//            transaction.replace(R.id.fragment_container, DashboardFragment.newInstance())
+//                .addToBackStack(null)
+//                .commit()
+//        }
     }
 }

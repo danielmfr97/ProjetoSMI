@@ -33,7 +33,7 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 
     override fun onClick(v: View) {
         when(v.id) {
-            R.id.dash_reportsID -> MainActivity.setFragment(TODO("Criar reportsFragment"))
+//            R.id.dash_reportsID -> MainActivity.setFragment(TODO("Criar reportsFragment"))
         }
     }
 
