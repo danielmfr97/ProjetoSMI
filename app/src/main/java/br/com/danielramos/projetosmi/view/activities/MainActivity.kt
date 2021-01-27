@@ -20,14 +20,18 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import br.com.danielramos.projetosmi.MyApplication
 import br.com.danielramos.projetosmi.R
+import br.com.danielramos.projetosmi.contracts.MainContract
 import br.com.danielramos.projetosmi.databinding.ActivityMainBinding
 import br.com.danielramos.projetosmi.view.fragments.DashboardFragment
 import com.google.android.material.navigation.NavigationView
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainContract.MainView {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
+    private val mainPresenter: MainContract.MainPresenter by inject { parametersOf(this) }
 
     init {
         instance = this
