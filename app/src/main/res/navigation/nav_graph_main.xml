@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_main"
-    app:startDestination="@id/startFragment">
+    app:startDestination="@id/loginFragment">
     <fragment
         android:id="@+id/startFragment"
         android:name="br.com.danielramos.projetosmi.view.fragments.DashboardFragment"
@@ -12,5 +12,19 @@
         <action
             android:id="@+id/action_open_dashboard_fragment"
             app:destination="@id/startFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="br.com.danielramos.projetosmi.view.fragments.RegisterFragment"
+        android:label="fragment_register"
+        tools:layout="@layout/fragment_register" />
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="br.com.danielramos.projetosmi.view.fragments.LoginFragment">
+        <action
+            android:id="@+id/action_loginfragment_to_registerfragment"
+            app:destination="@id/registerFragment"/>
     </fragment>
 </navigation>

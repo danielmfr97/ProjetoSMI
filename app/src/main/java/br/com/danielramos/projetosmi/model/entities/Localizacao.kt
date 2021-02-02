@@ -1,6 +1,6 @@
 package br.com.danielramos.projetosmi.model.entities
 
-import androidx.room.PrimaryKey
+import io.realm.annotations.PrimaryKey
 
 open class Localizacao {
 

@@ -1,7 +1,7 @@
 package br.com.danielramos.projetosmi.model.entities
 
-import androidx.room.PrimaryKey
 import io.realm.RealmObject
+import io.realm.annotations.PrimaryKey
 import java.util.*
 
 open class Alarme : RealmObject() {

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "412518420056",
+    "project_id": "dadoswearable",
+    "storage_bucket": "dadoswearable.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:412518420056:android:1432440854253de87ec42d",
+        "android_client_info": {
+          "package_name": "br.com.danielramos.projetosmi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "412518420056-cj1v4baupeto86pc0shk567auk6fdc6l.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.danielramos.projetosmi",
+            "certificate_hash": "652102fdf51fd6cf73105d6cc1eabd6f73eb3d19"
+          }
+        },
+        {
+          "client_id": "412518420056-575jj3m09cv3hf71m6l83ljk4qjefkd0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBYhU1UbVop08DJr6Gq7yNxvEFhsVxjRc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "412518420056-575jj3m09cv3hf71m6l83ljk4qjefkd0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

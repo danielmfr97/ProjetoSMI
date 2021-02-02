@@ -6,32 +6,33 @@ import android.os.Build
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.Fragment
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import br.com.danielramos.projetosmi.MyApplication
 import br.com.danielramos.projetosmi.R
 import br.com.danielramos.projetosmi.contracts.MainContract
 import br.com.danielramos.projetosmi.databinding.ActivityMainBinding
-import br.com.danielramos.projetosmi.view.fragments.DashboardFragment
+import br.com.danielramos.projetosmi.presenter.MainPresenter
 import com.google.android.material.navigation.NavigationView
 import org.koin.android.ext.android.inject
 import org.koin.core.parameter.parametersOf
+
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainContract.MainView {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
-    private val mainPresenter: MainContract.MainPresenter by inject { parametersOf(this) }
+    private lateinit var presenter: MainPresenter
 
     init {
         instance = this
@@ -77,6 +78,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         configureToolbar()
         configureDrawer()
         configureNavController()
+        inicializarPresenter()
+    }
+
+    private fun inicializarPresenter() {
+        presenter = MainPresenter(this)
     }
 
     private fun configureToolbar() {
@@ -102,6 +108,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun configureNavController() {
         navController = findNavController(R.id.navHostFragment)
+        navController.addOnDestinationChangedListener { controller, destination, arguments ->
+            val id = destination.id
+            when (id) {
+                R.id.startFragment -> binding.toolbarMain.visibility = View.VISIBLE
+                R.id.loginFragment -> {
+                    binding.toolbarMain.visibility = View.GONE
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                }
+                R.id.registerFragment -> {
+                    binding.toolbarMain.visibility = View.GONE
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                }
+                else -> {
+                    binding.toolbarMain.visibility = View.VISIBLE
+                    binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                }
+            }
+        }
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
@@ -144,7 +168,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
 
     companion object {
-        private var instance: MainActivity? = null
+        var instance: MainActivity? = null
 
 //        fun setFragment(fragment: Fragment) {
 //            val transaction = instance!!.supportFragmentManager.beginTransaction()
