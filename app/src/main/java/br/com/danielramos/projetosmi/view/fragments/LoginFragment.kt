@@ -9,10 +9,12 @@ import androidx.navigation.fragment.findNavController
 import br.com.danielramos.projetosmi.R
 import br.com.danielramos.projetosmi.contracts.LoginContract
 import br.com.danielramos.projetosmi.databinding.FragmentLoginBinding
+import br.com.danielramos.projetosmi.presenter.LoginPresenter
 
 class LoginFragment : Fragment(), View.OnClickListener, LoginContract.LoginView {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
+    private lateinit var presenter: LoginPresenter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,8 +23,13 @@ class LoginFragment : Fragment(), View.OnClickListener, LoginContract.LoginView 
     ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
+        inicializarPresenter()
         configurarBotoes()
         return view
+    }
+
+    private fun inicializarPresenter() {
+        presenter = LoginPresenter(this)
     }
 
     private fun configurarBotoes() {
@@ -33,6 +40,8 @@ class LoginFragment : Fragment(), View.OnClickListener, LoginContract.LoginView 
     override fun onClick(v: View?) {
         when (v) {
             binding.btnAcessar -> {
+                if(presenter.isCredentialsValid())
+                    findNavController().navigate(R.id.action_open_dashboard_fragment)
                 //TODO: Verificar se há conexão com a  internet
             }
 

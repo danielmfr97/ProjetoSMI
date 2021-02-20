@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "412518420056",
+    "firebase_url": "https://dadoswearable-default-rtdb.firebaseio.com",
     "project_id": "dadoswearable",
     "storage_bucket": "dadoswearable.appspot.com"
   },
