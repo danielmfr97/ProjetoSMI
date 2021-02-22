@@ -73,13 +73,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            android:clickable="true"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:layout_marginTop="0dp"
             android:layout_marginBottom="10dp"
             android:textSize="36sp"
             android:text="@string/acessar"
-            android:textColor="@color/light_gray" />
+            android:textColor="@color/light_gray"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/btnRegistrar"

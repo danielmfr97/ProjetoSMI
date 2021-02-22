@@ -10,11 +10,16 @@ import br.com.danielramos.projetosmi.R
 import br.com.danielramos.projetosmi.contracts.LoginContract
 import br.com.danielramos.projetosmi.databinding.FragmentLoginBinding
 import br.com.danielramos.projetosmi.presenter.LoginPresenter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class LoginFragment : Fragment(), View.OnClickListener, LoginContract.LoginView {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private lateinit var presenter: LoginPresenter
+    private lateinit var auth: FirebaseAuth
+    private val TAG = "LoginFragment"
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,6 +29,7 @@ class LoginFragment : Fragment(), View.OnClickListener, LoginContract.LoginView 
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
         inicializarPresenter()
+        inicializarFirebaseAuth()
         configurarBotoes()
         return view
     }
@@ -32,19 +38,21 @@ class LoginFragment : Fragment(), View.OnClickListener, LoginContract.LoginView 
         presenter = LoginPresenter(this)
     }
 
+    private fun inicializarFirebaseAuth() {
+        auth = Firebase.auth
+    }
+
     private fun configurarBotoes() {
-        binding.tilEmail.setOnClickListener(this)
+        binding.btnAcessar.setOnClickListener(this)
         binding.btnRegistrar.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
         when (v) {
             binding.btnAcessar -> {
-                if(presenter.isCredentialsValid())
-                    findNavController().navigate(R.id.action_open_dashboard_fragment)
-                //TODO: Verificar se há conexão com a  internet
+                if (presenter.logarUsuario())
+                    findNavController().navigate(R.id.action_loginfragment_to_dashboard)
             }
-
             binding.btnRegistrar -> {
                 findNavController().navigate(R.id.action_loginfragment_to_registerfragment)
             }

@@ -1,6 +1,7 @@
 package br.com.danielramos.projetosmi.view.activities
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -24,8 +25,6 @@ import br.com.danielramos.projetosmi.contracts.MainContract
 import br.com.danielramos.projetosmi.databinding.ActivityMainBinding
 import br.com.danielramos.projetosmi.presenter.MainPresenter
 import com.google.android.material.navigation.NavigationView
-import org.koin.android.ext.android.inject
-import org.koin.core.parameter.parametersOf
 
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainContract.MainView {
@@ -34,16 +33,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var presenter: MainPresenter
 
-    init {
-        instance = this
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         requestUserPermissions()
     }
 
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        instance = this
+    }
 
     private fun requestUserPermissions() {
         val permissions = arrayOf(
@@ -165,23 +164,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    fun openToastShort(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
+    }
+
+    fun openToastLong(text: String) {
+        Toast.makeText(this, text, Toast.LENGTH_LONG).show()
+    }
+
 
 
     companion object {
         var instance: MainActivity? = null
 
-//        fun setFragment(fragment: Fragment) {
-//            val transaction = instance!!.supportFragmentManager.beginTransaction()
-//            transaction.replace(R.id.fragment_container, fragment)
-//                .addToBackStack(null)
-//                .commit()
-//        }
-//
-//        fun moveToDashboard() {
-//            val transaction = instance!!.supportFragmentManager.beginTransaction()
-//            transaction.replace(R.id.fragment_container, DashboardFragment.newInstance())
-//                .addToBackStack(null)
-//                .commit()
-//        }
+        val context: Context
+            get() = instance!!.baseContext
     }
 }

@@ -26,5 +26,9 @@
         <action
             android:id="@+id/action_loginfragment_to_registerfragment"
             app:destination="@id/registerFragment"/>
+
+        <action
+            android:id="@+id/action_loginfragment_to_dashboard"
+            app:destination="@id/startFragment"/>
     </fragment>
 </navigation>
