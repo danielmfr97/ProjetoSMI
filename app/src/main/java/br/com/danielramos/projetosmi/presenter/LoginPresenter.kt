@@ -14,7 +14,7 @@ class LoginPresenter(private val view: LoginFragment) {
     }
 
     private fun signWithEmailAndPassword(): Boolean {
-        var success: Boolean = false
+        var success = false
         auth.signInWithEmailAndPassword(view.getEmail(), view.getSenha())
             .addOnCompleteListener(MainActivity()) { task ->
                 if (task.isSuccessful) {

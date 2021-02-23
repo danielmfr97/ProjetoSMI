@@ -9,11 +9,14 @@ import br.com.danielramos.projetosmi.utils.ValidatorUtils
 import br.com.danielramos.projetosmi.view.activities.MainActivity
 import br.com.danielramos.projetosmi.view.fragments.RegisterFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.ktx.Firebase
 
 class RegisterPresenter(override val view: RegisterFragment) : RegisterContract.RegisterPresenter {
 
     private val auth: FirebaseAuth = FirebaseAuth.getInstance()
+    private val rootDatabase = FirebaseDatabase.getInstance().reference
 
     override fun cadastrarUsuario() {
         if (isCamposValidos()) {
@@ -25,6 +28,7 @@ class RegisterPresenter(override val view: RegisterFragment) : RegisterContract.
                 .addOnCompleteListener(MainActivity()) { task ->
                     if (task.isSuccessful) {
                         MainActivity.instance!!.openToastShort("User created.")
+                        salvarDadosUsuario(nome, email)
                         view.enableDisableProgressbar(false)
                         onBack()
                     } else {
@@ -34,6 +38,13 @@ class RegisterPresenter(override val view: RegisterFragment) : RegisterContract.
                     }
                 }
         }
+    }
+
+    private fun salvarDadosUsuario(nome: String, email: String) {
+        rootDatabase.child(auth.currentUser!!.uid)
+            .child("nome").setValue(nome)
+        rootDatabase.child(auth.currentUser!!.uid)
+            .child("email").setValue(email)
     }
 
     private fun onBack() {
