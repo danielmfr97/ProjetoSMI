@@ -28,6 +28,22 @@
     <string name="dash_setup_contentDesc">Configure a aplicação com o dispositivo vestível para comunicação</string>
     <string name="add_user_error">Falha ao configurar usuário</string>
     <string name="sem_alarmes">Não há alarmes. Clique no botão + para criar um alarme</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_register">Register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="endereco_email">E-mail</string>
+    <string name="informar_senha">Senha</string>
+    <string name="btnAcessar">Acessar</string>
+    <string name="acessar">Acessar</string>
+    <string name="registrar">Registrar-se</string>
+    <string name="esquercer_senha">Esqueceu sua senha?</string>
+    <string name="nome">Nome e Sobrenome</string>
 </resources>

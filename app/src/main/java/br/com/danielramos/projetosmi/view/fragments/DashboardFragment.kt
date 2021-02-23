@@ -36,10 +36,4 @@ class DashboardFragment : Fragment(), View.OnClickListener {
 //            R.id.dash_reportsID -> MainActivity.setFragment(TODO("Criar reportsFragment"))
         }
     }
-
-    companion object {
-        fun newInstance(): DashboardFragment{
-            return DashboardFragment()
-        }
-    }
 }
