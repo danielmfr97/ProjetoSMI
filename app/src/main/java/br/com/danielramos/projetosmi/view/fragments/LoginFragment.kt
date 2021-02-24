@@ -50,8 +50,8 @@ class LoginFragment : Fragment(), View.OnClickListener, LoginContract.LoginView 
     override fun onClick(v: View?) {
         when (v) {
             binding.btnAcessar -> {
-                if (presenter.logarUsuario())
-                    findNavController().navigate(R.id.action_loginfragment_to_dashboard)
+                if (presenter.isCredentialsValid())
+                    presenter.logarUsuario()
             }
             binding.btnRegistrar -> {
                 findNavController().navigate(R.id.action_loginfragment_to_registerfragment)
