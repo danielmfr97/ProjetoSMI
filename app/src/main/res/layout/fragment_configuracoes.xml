@@ -19,6 +19,15 @@
             app:layout_constraintStart_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <Button
+            android:id="@+id/btnEnableDiscoverable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enable/Disable Discoverable"
+            app:layout_constraintEnd_toEndOf="@id/btnOnOffBluetooth"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnOnOffBluetooth" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

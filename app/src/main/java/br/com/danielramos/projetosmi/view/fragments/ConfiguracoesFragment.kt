@@ -1,5 +1,6 @@
 package br.com.danielramos.projetosmi.view.fragments
 
+import android.R.attr
 import android.bluetooth.BluetoothAdapter
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -34,7 +35,8 @@ class ConfiguracoesFragment : Fragment(), View.OnClickListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        MainActivity.context.unregisterReceiver(mBroadcastReceiver)
+        MainActivity.context.unregisterReceiver(broadcastReceiverOnOffBT)
+        MainActivity.context.unregisterReceiver(broadcastReceiverDiscoverableBT)
     }
 
     fun configurarBluetooth() {
@@ -43,6 +45,7 @@ class ConfiguracoesFragment : Fragment(), View.OnClickListener {
 
     private fun configurarComponetnes() {
         binding.btnOnOffBluetooth.setOnClickListener(this)
+        binding.btnEnableDiscoverable.setOnClickListener(this)
     }
 
     private fun enableDisableBluetooth() {
@@ -55,16 +58,25 @@ class ConfiguracoesFragment : Fragment(), View.OnClickListener {
             val enableBluetoothIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
             startActivity(enableBluetoothIntent)
             val bluetoothFilter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
-            MainActivity.context.registerReceiver(mBroadcastReceiver, bluetoothFilter)
+            MainActivity.context.registerReceiver(broadcastReceiverOnOffBT, bluetoothFilter)
         } else {
             Log.d(TAG, "Desativando Bluetooth")
             bluetoothAdapter.disable()
             val bluetoothFilter = IntentFilter(BluetoothAdapter.ACTION_STATE_CHANGED)
-            MainActivity.context.registerReceiver(mBroadcastReceiver, bluetoothFilter)
+            MainActivity.context.registerReceiver(broadcastReceiverOnOffBT, bluetoothFilter)
         }
     }
 
-    private val mBroadcastReceiver = object : BroadcastReceiver() {
+    fun enableDeviceDiscoverable() {
+        Log.d(TAG, "btnEnableDisable_Discoverable: Making device discoverable for 300 seconds.")
+        val discoverableIntent = Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE)
+        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300)
+        startActivity(discoverableIntent)
+        val intentFilter = IntentFilter(BluetoothAdapter.ACTION_SCAN_MODE_CHANGED)
+        MainActivity.context.registerReceiver(broadcastReceiverDiscoverableBT, intentFilter)
+    }
+
+    private val broadcastReceiverOnOffBT = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action!! == BluetoothAdapter.ACTION_STATE_CHANGED) {
                 val state = intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, BluetoothAdapter.ERROR)
@@ -83,13 +95,43 @@ class ConfiguracoesFragment : Fragment(), View.OnClickListener {
             }
         }
     }
+    private val broadcastReceiverDiscoverableBT = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action!! == BluetoothAdapter.ACTION_SCAN_MODE_CHANGED) {
+                val mode = intent.getIntExtra(
+                    BluetoothAdapter.EXTRA_SCAN_MODE,
+                    BluetoothAdapter.ERROR
+                )
+                when (attr.mode) {
+                    BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE -> Log.d(
+                        TAG,
+                        "mBroadcastReceiver2: Discoverability Enabled."
+                    )
+                    BluetoothAdapter.SCAN_MODE_CONNECTABLE -> Log.d(
+                        TAG,
+                        "mBroadcastReceiver2: Discoverability Disabled. Able to receive connections."
+                    )
+                    BluetoothAdapter.SCAN_MODE_NONE -> Log.d(
+                        TAG,
+                        "mBroadcastReceiver2: Discoverability Disabled. Not able to receive connections."
+                    )
+                    BluetoothAdapter.STATE_CONNECTING -> Log.d(
+                        TAG,
+                        "mBroadcastReceiver2: Connecting...."
+                    )
+                    BluetoothAdapter.STATE_CONNECTED -> Log.d(
+                        TAG,
+                        "mBroadcastReceiver2: Connected."
+                    )
+                }
+            }
+        }
+    }
 
     override fun onClick(v: View?) {
         when (v) {
-            binding.btnOnOffBluetooth -> {
-                enableDisableBluetooth()
-
-            }
+            binding.btnOnOffBluetooth -> enableDisableBluetooth()
+            binding.btnEnableDiscoverable -> enableDeviceDiscoverable()
         }
     }
 
