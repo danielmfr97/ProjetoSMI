@@ -1,7 +1,6 @@
 package br.com.danielramos.projetosmi.view.activities
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
@@ -111,7 +110,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navController.addOnDestinationChangedListener { controller, destination, arguments ->
             val id = destination.id
             when (id) {
-                R.id.startFragment -> binding.toolbarMain.visibility = View.VISIBLE
+                R.id.dashboardFragment -> binding.toolbarMain.visibility = View.VISIBLE
                 R.id.loginFragment -> {
                     binding.toolbarMain.visibility = View.GONE
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)

@@ -5,13 +5,17 @@
     android:id="@+id/nav_graph_main"
     app:startDestination="@id/loginFragment">
     <fragment
-        android:id="@+id/startFragment"
+        android:id="@+id/dashboardFragment"
         android:name="br.com.danielramos.projetosmi.view.fragments.DashboardFragment"
         android:label="fragment_dashboard"
         tools:layout="@layout/fragment_dashboard" >
         <action
             android:id="@+id/action_open_dashboard_fragment"
-            app:destination="@id/startFragment" />
+            app:destination="@id/dashboardFragment" />
+
+        <action
+            android:id="@+id/action_open_configuracao_fragment"
+            app:destination="@id/configuracoesFragment" />
     </fragment>
 
     <fragment
@@ -22,13 +26,21 @@
 
     <fragment
         android:id="@+id/loginFragment"
-        android:name="br.com.danielramos.projetosmi.view.fragments.LoginFragment">
+        android:name="br.com.danielramos.projetosmi.view.fragments.LoginFragment"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginfragment_to_registerfragment"
             app:destination="@id/registerFragment"/>
 
         <action
             android:id="@+id/action_loginfragment_to_dashboard"
-            app:destination="@id/startFragment"/>
+            app:destination="@id/dashboardFragment"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/configuracoesFragment"
+        android:name="br.com.danielramos.projetosmi.view.fragments.ConfiguracoesFragment"
+        android:label="fragment_configuracoes"
+        tools:layout="@layout/fragment_configuracoes" />
+
 </navigation>

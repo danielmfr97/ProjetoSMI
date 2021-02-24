@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import br.com.danielramos.projetosmi.R
 import br.com.danielramos.projetosmi.databinding.FragmentDashboardBinding
 import br.com.danielramos.projetosmi.view.activities.MainActivity
@@ -32,8 +33,8 @@ class DashboardFragment : Fragment(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-        when(v.id) {
-//            R.id.dash_reportsID -> MainActivity.setFragment(TODO("Criar reportsFragment"))
+        when(v) {
+            binding.dashSetupID -> findNavController().navigate(R.id.action_open_configuracao_fragment)
         }
     }
 }
